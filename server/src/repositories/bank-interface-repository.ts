@@ -5,12 +5,12 @@ export type CreateBankDTO = {
   name: string;
   code: string;
   fullName: string;
-  icon?: string | null;
 }
 
 export interface BankInterfaceRepository {
   findById(id: string): Promise<Bank | null>;
   findByName(name: string): Promise<Bank | null>;
+  findByCode(code: string): Promise<Bank | null>;
   findAll(): Promise<Bank[]>;
   create(bank: CreateBankDTO): Promise<Bank>;
   update(bank: Bank): Promise<Bank>;
