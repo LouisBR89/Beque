@@ -1,0 +1,18 @@
+$ npm init
+  package name: (server) finance-backend
+  version: (1.0.0)
+  description: Este projeto é um sistema de gerenciamento financeiro
+  entry point: (index.js)
+  test command:
+  git repository:
+  keywords:
+  author: Christian Cesar
+  license: (ISC)
+  type: (commonjs) module
+
+$npm install typescript
+
+- https://tsx.is/ Rodar nosso codigo typescript
+$ npm install -D tsx
+
+$ npm install fastify
