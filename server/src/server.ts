@@ -1,24 +1,44 @@
 
-import Fastify from 'fastify'
-import { categoriesRoutes } from './routes/categories-route.js'
-import { banksRoutes } from './routes/banks-route.js'
-import { transactionsRoutes } from './routes/transactions-route.js'
+import fastify from 'fastify';
+import categoriesRoute from './routes/categories-route.js';
+import banksRoute from './routes/banks-route.js';
+import transactionsRoute from './routes/transactions-route.js';
+import cors from '@fastify/cors';
+import { AppError } from './common/AppError.js';
+import { ZodError } from 'zod';
 
-const fastify = Fastify({
-  logger: true
-})
+export const app = fastify();
 
-const versionApi = "v1"
+app.register(cors, {
+  origin: '*',
+});
 
-fastify.register(categoriesRoutes);
-fastify.register(banksRoutes);
-fastify.register(transactionsRoutes);
+app.register(categoriesRoute);
+app.register(banksRoute);
+app.register(transactionsRoute);
 
+app.setErrorHandler((error, _, reply) => {
+  if (error instanceof ZodError) {
+    return reply.status(400).send({
+      status: 'error',
+      message: 'Validation error.',
+      issues: error.flatten().fieldErrors,
+    });
+  }
 
-// Run the server!
+  if (error instanceof AppError) {
+    return reply.status(error.statusCode).send({
+      status: 'error',
+      message: error.message,
+    });
+  }
+
+  return reply.status(500).send({ message: 'Internal server error.' });
+});
+
 try {
-  await fastify.listen({ port: 3000 })
+  await app.listen({ port: 3000 });
 } catch (err) {
-  fastify.log.error(err)
-  process.exit(1)
+  console.error(err);
+  process.exit(1);
 }

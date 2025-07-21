@@ -1,22 +1,15 @@
-import { CategoryInterfaceRepository } from "../../repositories/category-interface-repository.js";
+
+import { ICategoryRepository } from "../../repositories/category-interface-repository.js";
+import { AppError } from "../../common/AppError.js";
 
 export class DeleteCategoryService {
-  private categoryRepository: CategoryInterfaceRepository;
-  
-  constructor(categoryRepository: CategoryInterfaceRepository) {
-    this.categoryRepository = categoryRepository;
-  }
-  
-  async execute(id: string): Promise<void> {
-    if (!id) {
-      throw new Error('ID is required');
-    }
+  constructor(private categoryRepository: ICategoryRepository) {}
 
-    const existingCategory = await this.categoryRepository.findById(id);
-    if (!existingCategory) {
-      throw new Error('Category not found');
+  async execute(id: string) {
+    const category = await this.categoryRepository.findById(id);
+    if (!category) {
+      throw new AppError('Category not found', 404);
     }
-
     await this.categoryRepository.delete(id);
   }
 }

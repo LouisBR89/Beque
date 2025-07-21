@@ -1,22 +1,15 @@
-import { BankInterfaceRepository } from "../../repositories/bank-interface-repository.js";
+
+import { IBankRepository } from "../../repositories/bank-interface-repository.js";
+import { AppError } from "../../common/AppError.js";
 
 export class DeleteBankService {
-  private bankRepository: BankInterfaceRepository;
-  
-  constructor(bankRepository: BankInterfaceRepository) {
-    this.bankRepository = bankRepository;
-  }
-  
-  async execute(id: string): Promise<void> {
-    if (!id) {
-      throw new Error('ID is required');
-    }
+  constructor(private bankRepository: IBankRepository) {}
 
-    const existingBank = await this.bankRepository.findById(id);
-    if (!existingBank) {
-      throw new Error('Bank not found');
+  async execute(id: string) {
+    const bank = await this.bankRepository.findById(id);
+    if (!bank) {
+      throw new AppError('Bank not found', 404);
     }
-
     await this.bankRepository.delete(id);
   }
 }

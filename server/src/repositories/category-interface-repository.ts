@@ -4,7 +4,7 @@ export type CreateCategoryDTO = {
   icon?: string | null;
   name: string;
 }
-export interface CategoryInterfaceRepository {
+export interface ICategoryRepository {
   findById(id: string): Promise<Category | null>;
   findByName(name: string): Promise<Category | null>;
   findAll(): Promise<Category[]>;

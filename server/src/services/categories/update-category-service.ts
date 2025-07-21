@@ -1,37 +1,17 @@
-import { CategoryInterfaceRepository } from "../../repositories/category-interface-repository.js";
-import { Category } from "../../entities/transaction.js";
+
+import { ICategoryRepository } from "../../repositories/category-interface-repository.js";
+import { AppError } from "../../common/AppError.js";
 
 export class UpdateCategoryService {
-  private categoryRepository: CategoryInterfaceRepository;
-  
-  constructor(categoryRepository: CategoryInterfaceRepository) {
-    this.categoryRepository = categoryRepository;
-  }
-  
-  async execute(id: string, name?: string, icon?: string | null): Promise<Category> {
-    if (!id) {
-      throw new Error('ID is required');
+  constructor(private categoryRepository: ICategoryRepository) {}
+
+  async execute(id: string, name: string, icon?: string | null) {
+    const category = await this.categoryRepository.findById(id);
+    if (!category) {
+      throw new AppError('Category not found', 404);
     }
-
-    const existingCategory = await this.categoryRepository.findById(id);
-    if (!existingCategory) {
-      throw new Error('Category not found');
-    }
-
-    if (name && name !== existingCategory.name) {
-      const categoryWithSameName = await this.categoryRepository.findByName(name);
-      if (categoryWithSameName) {
-        throw new Error('Category with this name already exists');
-      }
-    }
-
-    const updatedCategory = new Category(
-      name ?? existingCategory.name,
-      icon !== undefined ? icon : existingCategory.icon,
-      existingCategory.id,
-      existingCategory.createdAt
-    );
-
-    return await this.categoryRepository.update(updatedCategory);
+    category.name = name ?? category.name;
+    category.icon = icon ?? category.icon;
+    return await this.categoryRepository.update(category);
   }
 }
