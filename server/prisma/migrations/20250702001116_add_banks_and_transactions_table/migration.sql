@@ -1,4 +1,3 @@
--- CreateTable
 CREATE TABLE "banks" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "ispb" TEXT NOT NULL,
@@ -9,7 +8,6 @@ CREATE TABLE "banks" (
     "updatedAt" DATETIME
 );
 
--- CreateTable
 CREATE TABLE "transactions" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "description" TEXT,
