@@ -1,17 +1,16 @@
-import { Router } from 'express';
-import { BankController } from '../controllers/BankController.js';
-import { BankService } from '../services/BankService.js';
-import { BankRepository } from '../repositories/BankRepository.js';
+import { FastifyInstance } from 'fastify';
+import {
+  createBankController,
+  listBanksController,
+  getBankController,
+  updateBankController,
+  deleteBankController
+} from '../controllers/bank-controller.js';
 
-const router = Router();
-const repository = new BankRepository();
-const service = new BankService(repository);
-const controller = new BankController(service);
-
-router.post('/', controller.create.bind(controller));
-router.get('/', controller.findAll.bind(controller));
-router.get('/:id', controller.findById.bind(controller));
-router.patch('/:id', controller.update.bind(controller));
-router.delete('/:id', controller.delete.bind(controller));
-
-export { router as banksRouter };
+export async function banksRoutes(fastify: FastifyInstance) {
+  fastify.post('/banks', createBankController);
+  fastify.get('/banks', listBanksController);
+  fastify.get('/banks/:id', getBankController);
+  fastify.patch('/banks/:id', updateBankController);
+  fastify.delete('/banks/:id', deleteBankController);
+}
