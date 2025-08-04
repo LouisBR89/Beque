@@ -1,42 +1,30 @@
-import fastify from 'fastify';
-import { categoriesRoute } from './routes/categories-route.js'; 
-import { banksRoute } from './routes/banks-route.js';
-import { transactionsRoute } from './routes/transactions-route.js';
+import Fastify from 'fastify';
 import cors from '@fastify/cors';
-import { AppError } from './common/AppError.js';
-import { ZodError } from 'zod';
+import { categoriesRoutes } from './routes/categories-route.js';
+import { banksRoutes } from './routes/banks-route.js';
+import { transactionsRoutes } from './routes/transactions-route.js';
 
-export const app = fastify();
+const app = Fastify();
 
-app.register(cors, {
+await app.register(cors, {
   origin: '*',
 });
 
-app.register(categoriesRoute);
-app.register(banksRoute);
-app.register(transactionsRoute);
+await app.register(categoriesRoutes);
+await app.register(banksRoutes);
+await app.register(transactionsRoutes);
 
-app.setErrorHandler((error, _, reply) => {
-  if (error instanceof ZodError) {
-    return reply.status(400).send({
-      status: 'error',
-      message: 'Validation error.',
-      issues: error.flatten().fieldErrors,
-    });
-  }
-
-  if (error instanceof AppError) {
-    return reply.status(error.statusCode).send({
-      status: 'error',
-      message: error.message,
-    });
-  }
-
-  return reply.status(500).send({ message: 'Internal server error.' });
+app.setNotFoundHandler((req, reply) => {
+  reply.status(404).send({ error: 'Endpoint not found' });
 });
 
-try {
-  await app.listen({ port: 3000 });
-} catch (err) {
-  
-}
+app.setErrorHandler((error, req, reply) => {
+  console.error(error);
+  reply.status(500).send({ error: 'Internal server error' });
+});
+
+const PORT = 3000;
+
+app.listen({ port: PORT }).then(() => {
+  console.log(`Server running on port ${PORT}`);
+});

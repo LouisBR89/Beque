@@ -1,4 +1,3 @@
-
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CategoryRepositoryPrisma } from "../repositories/category-repository-prisma.js";
 import { CreateCategoryService } from "../services/categories/create-category-service.js";
@@ -12,7 +11,7 @@ export async function createCategoryController(request: FastifyRequest, reply: F
 
   const repository = new CategoryRepositoryPrisma();
   const service = new CreateCategoryService(repository);
-  const category = await service.execute(name, icon);
+  const category = await service.execute(name, icon ?? null);
 
   return reply.status(201).send(category);
 }
@@ -42,7 +41,7 @@ export async function updateCategoryController(request: FastifyRequest, reply: F
   const repository = new CategoryRepositoryPrisma();
   const service = new UpdateCategoryService(repository);
 
-  const updated = await service.execute(id, name, icon);
+  const updated = await service.execute(id, name ?? "", icon ?? "");
   return reply.status(200).send(updated);
 }
 
