@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 export async function createBankController(request: FastifyRequest, reply: FastifyReply) {
   const { name } = request.body as { name: string };
@@ -34,4 +34,12 @@ export async function updateBankController(request: FastifyRequest, reply: Fasti
 export async function deleteBankController(request: FastifyRequest, reply: FastifyReply) {
   const { id } = request.params as { id: string };
   return reply.send({ message: `Banco ${id} deletado com sucesso!` });
+}
+
+export async function banksRoute(app: FastifyInstance) {
+  app.get('/banks', listBanksController);
+  app.post('/banks', createBankController);
+  app.get('/banks/:id', getBankController);
+  app.patch('/banks/:id', updateBankController);
+  app.delete('/banks/:id', deleteBankController);
 }
