@@ -46,3 +46,4 @@ model Transaction {
   updatedAt   DateTime? @updatedAt
 
   @@map("transactions")
+}

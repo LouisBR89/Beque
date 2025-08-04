@@ -49,13 +49,7 @@ export async function deleteBankController(request: FastifyRequest, reply: Fasti
 }
 
 export async function banksRoute(app: FastifyInstance) {
-  app.get('/banks', listBanksController);
-  app.post('/banks', createBankController);
-  app.get('/banks/:id', getBankController);
-  app.patch('/banks/:id', updateBankController);
-  app.delete('/banks/:id', deleteBankController);
-
-  app.get('/', async (request, reply) => {
+  app.get('/banks', async (request, reply) => {
     let html = `
       <h1>Bancos</h1>
       <form method="POST" action="/banks">
@@ -73,7 +67,6 @@ export async function banksRoute(app: FastifyInstance) {
         `).join('')}
       </ul>
       <script>
-        // Permite DELETE via formulário HTML
         document.querySelectorAll('form[action*="?_method=DELETE"]').forEach(form => {
           form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -93,4 +86,9 @@ export async function banksRoute(app: FastifyInstance) {
     `;
     reply.type('text/html').send(html);
   });
+
+  app.post('/banks', createBankController);
+  app.get('/banks/:id', getBankController);
+  app.patch('/banks/:id', updateBankController);
+  app.delete('/banks/:id', deleteBankController);
 }
