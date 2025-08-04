@@ -38,5 +38,5 @@ app.setErrorHandler((error, _, reply) => {
 try {
   await app.listen({ port: 3000 });
 } catch (err) {
-  console.error(err);
+  
 }
