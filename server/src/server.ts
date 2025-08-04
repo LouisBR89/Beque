@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import { categoriesRoute } from './routes/categories-route.js';
+import { categoriesRoute } from './routes/categories-route.js'; 
 import { banksRoute } from './routes/banks-route.js';
 import { transactionsRoute } from './routes/transactions-route.js';
 import cors from '@fastify/cors';
