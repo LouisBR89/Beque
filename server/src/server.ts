@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import categoriesRoute from './routes/categories-route.js';
 import { banksRoute } from './routes/banks-route.js';
-import transactionsRoute from './routes/transactions-route.js';
+import { transactionsRoute } from './routes/transactions-route.js';
 import cors from '@fastify/cors';
 import { AppError } from './common/AppError.js';
 import { ZodError } from 'zod';
@@ -39,5 +39,4 @@ try {
   await app.listen({ port: 3000 });
 } catch (err) {
   console.error(err);
-  process.exit(1);
 }
