@@ -1,0 +1,26 @@
+### Criar categoria
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "name": "Alimentação",
+  "icon": "🍔"
+}
+
+### Listar todas as categorias
+GET http://localhost:3000/categories
+
+### Obter categoria por ID
+GET http://localhost:3000/categories/Coloca o ID da categoria aqui
+
+### Atualizar categoria por ID
+PATCH http://localhost:3000/categories/Coloca o ID da categoria aqui
+Content-Type: application/json
+
+{
+  "name": "Transporte",
+  "icon": "🚗"
+}
+
+### Deletar categoria por ID
+DELETE http://localhost:3000/categories/Coloca o ID da categoria aqui

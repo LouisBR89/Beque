@@ -1,0 +1,28 @@
+### Criar banco
+POST http://localhost:3000/banks
+Content-Type: application/json
+
+{
+  "name": "Banco Inter",
+  "type": "Conta Corrente",
+  "balance": 2500.00
+}
+
+### Listar todos os bancos
+GET http://localhost:3000/banks
+
+### Obter banco por ID
+GET http://localhost:3000/banks/Coloca o ID do Banco aqui
+
+### Atualizar banco por ID
+PATCH http://localhost:3000/banks/Coloca o ID do Banco aqui
+Content-Type: application/json
+
+{
+  "name": "Banco Inter Atualizado",
+  "type": "Conta Poupança",
+  "balance": 3000.00
+}
+
+### Deletar banco por ID
+DELETE http://localhost:3000/banks/Coloca o ID do Banco aqui

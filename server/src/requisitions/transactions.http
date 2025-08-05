@@ -1,0 +1,34 @@
+### Criar transação
+POST http://localhost:3000/transactions
+Content-Type: application/json
+
+{
+  "amount": 150.00,
+  "type": "Entrada",
+  "description": "Salário",
+  "date": "2025-08-04T00:00:00.000Z",
+  "bankId": "Coloca o ID de um banco aqui",
+  "categoryId": "Coloca o ID de uma categoria aqui"
+}
+
+### Listar todas as transações
+GET http://localhost:3000/transactions
+
+### Obter transação por ID
+GET http://localhost:3000/transactions/Coloca o ID da transação aqui
+
+### Atualizar transação por ID
+PATCH http://localhost:3000/transactions/Coloca o ID da transação aqui
+Content-Type: application/json
+
+{
+  "amount": 200.00,
+  "type": "Saída",
+  "description": "Compra de mercado",
+  "date": "2024-02-04T00:00:00.000Z",
+  "bankId": "Coloca o ID de um banco aqui",
+  "categoryId": "Coloca o ID de uma categoria aqui"
+}
+
+### Deletar transação por ID
+DELETE http://localhost:3000/transactions/Coloca o ID da transação aqui

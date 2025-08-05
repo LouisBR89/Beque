@@ -23,7 +23,6 @@ model Bank {
   id          String        @id @default(uuid())
   name        String
   code        String?
-  ispb        String?
   fullName    String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime?     @updatedAt
